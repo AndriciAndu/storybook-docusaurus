@@ -47,6 +47,9 @@ The **`Checkmark`** is the **visual** Component.
 > * It can be used independently form the `Checkbox` (eg: to add visual enhancement in certain cases, such as a `Multiselect Option`)
 
 
+## Markup
+
+
 ```jsx
   import React, { Component } from "react";
 
@@ -66,6 +69,20 @@ The **`Checkmark`** is the **visual** Component.
     }
   }
 ```
+
+:::info
+
+The presence of `<label>`
+
+---
+
+An input without a label is a big no-no.
+
+:::
+
+## a11y Rules
+
+
 
 
 ## Notable Decision Points
