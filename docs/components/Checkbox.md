@@ -137,9 +137,9 @@ export default class MyComponent extends Component {
 
 Partial rules apply:
 *   Use valid HTML everywhere
-    *   covered in: 4.1.1 - Parsing
+    *   detailed in: 4.1.1 - Parsing
 *   Use clear labels and alternative text on forms
-    *   covered in: 3.2.2 - Labels or instructions
+    *   detailed in: 3.2.2 - Labels or instructions
 
 </Title>
 
@@ -147,10 +147,9 @@ Partial rules apply:
 
 *   Ensure HTML elements have complete start ( < > ) and end ( </ > ) tags where needed.
     *   All HTML tags are properly constructed; all closing tags are properly placed.
-*   Nest all HTML elements correctly (for example, list objects within an ordered or unordered list).
-    *   Only `<span>` and `<svg />` elements are used as children of `<label />`, in order
-        to abide by the "proper nesting" protocol -- only "inline" elements can be children
-        of "inline" elements.
+*   Nest all HTML elements correctly.
+    *   Only `<span>` and `<svg />` elements are used as children of `<label />`
+        _-- only "inline" elements can be children of "inline" elements._
 *   Use unique Ids.
     *   The HTML `id` property is not used.
 *   Check that HTML elements don’t contain duplicate attributes.
