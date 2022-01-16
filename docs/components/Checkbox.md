@@ -4,7 +4,8 @@ sidebar_position: 2
 ---
 
 import { renderTitle } from "../a11y/items";
-export const Title = ({ id, note }) => <Fragment>{renderTitle(id, note)}</Fragment>;
+
+export const Title = ({ id, note, children }) => <Fragment>{renderTitle({ id, note, children })}</Fragment>;
 
 
 <details>
@@ -126,58 +127,83 @@ export default class MyComponent extends Component {
 }
 ```
 
-> <Title id="4.1.1" />
-
-Only `<span>` and `<svg />` elements are used as children of `<label />`, in order to abide by the "proper nesting"
-protocol -- only "inline" elements can be children of "inline" elements.
-
-> <Title id="4.1.2" />
-
-*   `name` is covered through the use of the native HTML `<label />` element
-*   `role` and `value` are covered through the use of the native HTML `<input type="checkbox" />` element
-
-> <Title id="3.3.2" />
-
-*   `labeling` is covered through the use of the native HTML `<label />` element and the `children` prop.
-
 
 ## a11y Rules
 
 
 ### Markup
 
-> <Title id="1.3.1" />
->
-> *   Use valid HTML everywhere
-> *   Use clear labels and alternative text on forms
+<Title id="1.3.1">
 
-> <Title id="4.1.1" />
+Partial rules apply:
+*   Use valid HTML everywhere
+    *   covered in: 4.1.1 - Parsing
+*   Use clear labels and alternative text on forms
+    *   covered in: 3.2.2 - Labels or instructions
 
-> <Title id="4.1.2" />
+</Title>
 
-> <Title id="3.3.2" />
+<Title id="4.1.1">
+
+*   Ensure HTML elements have complete start ( < > ) and end ( </ > ) tags where needed.
+    *   All HTML tags are properly constructed; all closing tags are properly placed.
+*   Nest all HTML elements correctly (for example, list objects within an ordered or unordered list).
+    *   Only `<span>` and `<svg />` elements are used as children of `<label />`, in order
+        to abide by the "proper nesting" protocol -- only "inline" elements can be children
+        of "inline" elements.
+*   Use unique Ids.
+    *   The HTML `id` property is not used.
+*   Check that HTML elements don’t contain duplicate attributes.
+    *   There are no duplicated attributes on any HTML element.
+
+:::caution Dev reponsibility
+
+In order to fully satisfy these conditions, the application of the `<Checkbox />` component must take into account:
+*   if an `id` is to be applied, it must be unique within the document.
+*   the `children` passed, must be formed from `inline level` elements.
+
+:::
+
+</Title>
+
+<Title id="4.1.2">
+
+*   `name` is covered through the use of the native HTML `<label />` element
+*   `role` and `value` are covered through the use of the native HTML `<input type="checkbox" />` element
+
+</Title>
+
+<Title id="3.3.2">
+
+*   `labeling` is covered through the use of the native HTML `<label />` element and the `children` prop.
+
+</Title>
 
 
 ### Interactibility
 
-> <Title id="2.1.1" />
+<Title id="2.1.1" />
 
-> <Title id="2.1.2" />
+<Title id="2.1.2" />
 
-> <Title id="2.1.3" />
->
-> While this rule has an application-wide context, implementation within the current component
-  is required in order to satisfy it.
+<Title id="2.1.3">
 
-> <Title id="2.4.3" />
->
-> *   Only the `<input type="checkbox" />` is focusable.
-      No other elements make use of `tab-index` or receive focus in any way.
-> *   Focus remains on the element, and is not moved to other elements programatically.
+While this rule has an application-wide context, implementation within the current component
+is required in order to satisfy it.
 
-> <Title id="3.2.1" />
+</Title>
 
-> <Title id="3.2.2" />
+<Title id="2.4.3">
+
+*   Only the `<input type="checkbox" />` is focusable.
+    No other elements make use of `tab-index` or receive focus in any way.
+*   Focus remains on the element, and is not moved to other elements programatically.
+
+</Title>
+
+<Title id="3.2.1" />
+
+<Title id="3.2.2">
 
 [change of context](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html#dfn-changes-of-context)
 
@@ -187,10 +213,12 @@ protocol -- only "inline" elements can be children of "inline" elements.
     selecting to subscribe to a newsletter in a check box must not automatically subscribe your user,
     they should be able to click a submit button to confirm their decision).
 
+</Title>
+
 
 ### Error identification
 
-> <Title id="3.3.1" />
+<Title id="3.3.1">
 
 The error message required to fully satisfy this criterion will be covered within the "checkbox form field".
 
@@ -199,32 +227,34 @@ In support of this, the error state on the checkbox itself, must be covered here
 *   If a mandatory field is empty, highlight the field and explain what’s required.
 *   Highlight mistakes in forms with colours and symbols.
 
+</Title>
+
 
 ### Design
 
-> <Title id="1.4.11" />
+<Title id="1.4.11" />
 
 #### Typography
 
-> <Title id="1.4.10" />
+<Title id="1.4.10" />
 
-> <Title id="1.4.12" />
+<Title id="1.4.12" />
 
 #### Color
 
-> <Title id="1.4.3" />
+<Title id="1.4.3" />
 
-> <Title id="1.4.6" />
+<Title id="1.4.6" />
 
 #### States
 
-> <Title id="2.4.7" />
+<Title id="2.4.7" />
 
-> <Title id="2.4.11" />
+<Title id="2.4.11" />
 
-> <Title id="2.4.12" />
+<Title id="2.4.12" />
 
-> <Title id="3.3.1" />
+<Title id="3.3.1" />
 
 
 ## Notable Decision Points
@@ -272,6 +302,7 @@ doesn't show the focus ring.
 
 **Solution:**
 Don't actually "hide" the input, just use the `appearance: none` attribute, to remove all styling.
+[See browser support](https://caniuse.com/mdn-css_properties_appearance_none)
 
 :::
 
