@@ -83,16 +83,16 @@ The **`<Checkbox />`** is the **interactive** Component.
 ---
 
 The **`<Checkmark />`** is the **visual** Component.
-*   It is purely **presentational**, and doesn't have any **a11y props** or **functionality**
+*   It is purely **presentational**, and doesn't have any specific **a11y props** or **functionality**
 *   It can be used independently form the `<Checkbox />`
     (eg: to add visual enhancement in certain cases, eg. a `multiselect <Option />`)
+
+> Check the [Checkmark Page](/components/checkmark) for more info.
 
 </details>
 
 
 ## Usage Examples
-
-### Checkbox example
 
 ```jsx
 import React, { Component } from "react";
@@ -109,23 +109,13 @@ export default class MyComponent extends Component {
 }
 ```
 
-### Checkmark example
+:::caution Dev reponsibility
 
-```jsx
-import React, { Component } from "react";
-import Checkbox from "myComponents/checkbox/checkmark";
+In order to fully satisfy a11y requirements (parsing and valid HTML), only
+[inline elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements)
+must be used as `{children}`, as all content is wrapped within a `<label>` element.
 
-export default class MyComponent extends Component {
-  render() {
-    return (
-      <button>
-        <Checkmark /> // the <checkmark /> is purely visual
-        My button text
-      </button>
-    )
-  }
-}
-```
+:::
 
 
 ## a11y Rules
@@ -147,9 +137,9 @@ Partial rules apply:
 
 *   Ensure HTML elements have complete start ( < > ) and end ( </ > ) tags where needed.
     *   All HTML tags are properly constructed; all closing tags are properly placed.
-*   Nest all HTML elements correctly.
-    *   Only `<span>` and `<svg />` elements are used as children of `<label />`
-        _-- only "inline" elements can be children of "inline" elements._
+*   Nest all HTML elements correctly
+    (nesting [inline elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements))
+    *   Only `<span>` and `<svg />` elements are used as children of `<label />`&nbsp;
 *   Use unique Ids.
     *   The HTML `id` property is not used.
 *   Check that HTML elements don’t contain duplicate attributes.
@@ -181,36 +171,67 @@ In order to fully satisfy these conditions, the application of the `<Checkbox />
 
 ### Interactibility
 
-<Title id="2.1.1" />
+<Title id="2.1.1">
 
-<Title id="2.1.2" />
+The component is focusable, and focus is always available:
+*   through the use of the native `<input type="checkbox" />` element
+*   even when `disabled (state)`, through the use of the `aria-disabled` attribute, instead of the `disabled` attribute
+
+</Title>
+
+<Title id="2.1.2">
+There is no mecanism in place that would prevent focus from leaving the component.
+</Title>
 
 <Title id="2.1.3">
 
-While this rule has an application-wide context, implementation within the current component
-is required in order to satisfy it.
+_While this rule has an application-wide context, implementation within the current component
+is required in order to satisfy it._
 
 </Title>
 
 <Title id="2.4.3">
 
 *   Only the `<input type="checkbox" />` is focusable.
-    No other elements make use of `tab-index` or receive focus in any way.
-*   Focus remains on the element, and is not moved to other elements programatically.
+*   There is no use of `tabIndex` on any element.
+*   Once placed by user action. the focus remains on the `<input type="checkbox" />`,
+    and is not moved to other elements programatically.
 
 </Title>
 
-<Title id="3.2.1" />
+<Title id="3.2.1">
+
+No `action` occurs when triggering `onFocus` alone:
+*   No changes in `checked` state, no submision, no redirects to other pages
+*   No elements are **added** / **removed** / **moved** / **unhidden** within the DOM
+*   `Focus` doesn't programatically jump to another element
+    (no [change of context](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html#dfn-changes-of-context))
+
+</Title>
 
 <Title id="3.2.2">
 
+Upon user action, no
 [change of context](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html#dfn-changes-of-context)
+occurs:
 
-*   Focus (the field where the user will input next) must not automatically jump to the
-    next field in a form once a field is complete.
-*   Using a control (like selecting yes or no) must not automatically perform the action (for example,
-    selecting to subscribe to a newsletter in a check box must not automatically subscribe your user,
-    they should be able to click a submit button to confirm their decision).
+*   Focus does not programatically jump to another element
+*   No actions occur outside changing the `state` of the component (`checked`, `error`)
+
+:::note Usage
+
+This refferes to the baseline functionality of the Component, regarding
+[change of context](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html#dfn-changes-of-context).
+
+Aka: This does **not** mean that other _DOM changes_ cannot take place upon a change in the `state` of the `<Checkbox>`
+(such as adding/removing elements in another part of the application, or announcing an error state to the user, etc).
+
+Each case should be analized in their own context, and it is to be determined how such changes should
+be announced to the user, and when, how and/or if the
+[change of context](https://www.w3.org/WAI/WCAG22/Understanding/on-input.html#dfn-changes-of-context)
+should occur.
+
+:::
 
 </Title>
 
@@ -219,25 +240,38 @@ is required in order to satisfy it.
 
 <Title id="3.3.1">
 
-The error message required to fully satisfy this criterion will be covered within the "checkbox form field".
+*   The `error state` is visible and discernable (color and contrast on the `<Icon>` border)
+*   The component is focusable in its' `error state` and it can be linked to the proper `message` through props
 
-In support of this, the error state on the checkbox itself, must be covered here.
 
-*   If a mandatory field is empty, highlight the field and explain what’s required.
-*   Highlight mistakes in forms with colours and symbols.
+*   _The **error message** (which is required to fully satisfy this criterion)
+    is to be covered within the "checkbox form field"._
+*   _If the component is used outside of the "checkbox form field" component, it is the
+**developer's reponsability** to follow a11y standards._
 
 </Title>
 
 
-### Design
-
-<Title id="1.4.11" />
-
-#### Typography
+### Typography
 
 <Title id="1.4.10" />
 
 <Title id="1.4.12" />
+
+
+### Design
+
+:::caution Dev reponsibility
+
+For all the following `Design a11y requirements`, the baseline styling of the component
+passes all of the following rules.
+
+If **by developer actions** the design changes (colors, fonts, spacing, etc), it is the **developer's reponsability**
+to make sure that they abide by the a11y standards.
+
+:::
+
+<Title id="1.4.11" />
 
 #### Color
 
@@ -268,6 +302,7 @@ The [first rule of ARIA](https://www.w3.org/TR/using-aria/#firstrule) is
 if a native HTML element or attribute has the semantics and behavior you require,
 use it instead of re-purposing an element and adding ARIA.
 
+This is why the native `<input type="checkbox">` was used, despite the issues mentioned below.
 :::
 
 ---
@@ -315,6 +350,8 @@ Disabled elements do not receive focus.
 **Solution:**
 Ignore the `disabled` attribute, in favor of the `aria-disabled` attribute.
 
+[More about [aria-disabled] on MDN][ariaDisabled_mdn]
+
 :::
 
 :::caution Issue - `Error` state
@@ -326,6 +363,8 @@ Error states require the `required` attribute and an `unchecked` state.
 
 **Solution:**
 Use the `aria-invalid` attribute to handle error states.
+
+[More about [aria-invalid] on MDN][ariaInvalid_mdn]
 
 :::
 
@@ -342,3 +381,8 @@ Update `intermediate` **property** directly on the `<input type="checkbox">` nod
 :::
 
 ---
+
+
+
+[ariaDisabled_mdn]: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-disabled
+[ariaInvalid_mdn]: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-invalid

@@ -77,15 +77,23 @@ export const renderTitle = ({ id, note, children }) => {
     return null;
   }
 
+  const style = {
+    padding: "12px 18px",
+    marginBottom: "12px",
+    borderLeft: "2px solid rgba(3, 3, 3, 0.1)",
+    borderRadius: "6px",
+    background: "rgba(3, 3, 3, 0.02)",
+  }
+
   return (
-    <div style={ { paddingLeft: "12px", marginBottom: "12px", borderLeft: "2px solid rgba(3,3,3,.2)" } }>
-      <a href={item.wuhcagUrl} target="_blank" rel="noopener noreferrer">
+    <div style={style}>
+      <a href={item.wuhcagUrl} style={ { fontSize: "1.2em" } } target="_blank" rel="noopener noreferrer">
         {`(${item.type}) `}
         {item.title_extended}
       </a>
       {note}
       <br />
-      {item.desc}
+      <b style={ { fontWeight: "bolder", color: "#404040" } } >{item.desc}</b>
       {renderChildren(children)}
     </div>
   )
@@ -97,8 +105,6 @@ export const renderLinks = (id) => {
   if (!item) {
     return null;
   }
-
-  console.log(item)
 
   return (
     <Fragment>
